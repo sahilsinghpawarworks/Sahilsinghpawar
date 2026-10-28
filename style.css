@@ -707,3 +707,16 @@ html.splash-on .splash{display:block; position:fixed; inset:0; z-index:70; point
   .sp-bg i,.sp-dot::after,.sp-pill i::after{animation:none}
   .splash *{transition:none !important}
 }
+
+/* ---------- Full case-study board (Behance boards, sliced into lazy strips) ---------- */
+.case-full{margin-top:56px; border-top:1px solid var(--rule); padding-top:10px}
+.cf-board{position:relative; max-width:960px; margin-inline:auto; max-height:120vh; overflow:hidden; border:1px solid var(--rule);
+  transition:max-height .9s var(--ease)}
+.cf-board img{display:block; width:100%; height:auto}
+.cf-board::after{content:""; position:absolute; left:0; right:0; bottom:0; height:40vh; pointer-events:none;
+  background:linear-gradient(to bottom, transparent, var(--paper)); transition:opacity .5s}
+.cf-board.open{max-height:none}
+.cf-board.open::after{opacity:0}
+.cf-toggle{display:flex; align-items:center; gap:8px; margin:18px auto 0; padding:12px 22px; border:1px solid var(--ink); border-radius:99px;
+  font:500 11px/1 var(--f-mono); letter-spacing:.08em; text-transform:uppercase; transition:background .3s, color .3s}
+.cf-toggle:hover{background:var(--ink); color:var(--paper)}

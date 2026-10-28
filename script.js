@@ -192,6 +192,18 @@
     if (document.fonts) document.fonts.ready.then(() => { measure(); render(); });
   }
 
+  /* ---------- Full case-study boards: expand / collapse ---------- */
+  $$('.cf-toggle').forEach(btn => {
+    const board = document.getElementById(btn.getAttribute('aria-controls')), label = $('span', btn);
+    btn.addEventListener('click', () => {
+      const open = btn.getAttribute('aria-expanded') !== 'true';
+      btn.setAttribute('aria-expanded', open); board.classList.toggle('open', open);
+      label.textContent = open ? 'Show less' : 'Show full case study';
+      btn.lastChild.textContent = open ? ' ↑' : ' ↓';
+      if (!open) board.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+    });
+  });
+
   /* ---------- Curtain on the way out to another page ---------- */
   document.addEventListener('click', e => {
     const a = e.target.closest('a[href]');
@@ -283,6 +295,40 @@
       setToggle(btn, on); store.set(key, on ? '1' : '0'); if (on) tickSound();
     });
   });
+
+  /* ---------- Background music: soft, looping, on by default, remembers its place across pages ---------- */
+  const musicBtn = $('[data-toggle="music"]');
+  if (musicBtn) {
+    const VOL = 0.16;                                   // light background level
+    const music = new Audio(); music.src = 'audio/bg-music.mp3'; music.loop = true; music.preload = 'none'; music.volume = 0;
+    let fadeRaf = 0, started = false;
+    const fadeTo = (target, ms, done) => {
+      cancelAnimationFrame(fadeRaf);
+      const from = music.volume, t0 = performance.now();
+      const step = now => {
+        const k = Math.min(1, (now - t0) / ms);
+        music.volume = Math.max(0, Math.min(1, from + (target - from) * k));
+        if (k < 1) fadeRaf = requestAnimationFrame(step); else if (done) done();
+      };
+      fadeRaf = requestAnimationFrame(step);
+    };
+    const wanted = () => musicBtn.getAttribute('aria-pressed') === 'true';
+    let saved = null; try { saved = JSON.parse(sessionStorage.getItem('ssp-music') || 'null'); } catch (e) {}
+    const play = () => {
+      if (!wanted() || document.hidden) return;
+      if (!started && saved && saved.t) { try { music.currentTime = saved.t; } catch (e) {} }
+      const p = music.play();
+      if (p) p.then(() => { started = true; fadeTo(VOL, started && saved ? 1200 : 2500); }).catch(() => {});
+    };
+    const pause = () => fadeTo(0, 600, () => music.pause());
+    // browsers only allow sound after a visitor interacts: start on the first click / tap / key
+    const firstGesture = () => { ['pointerdown', 'keydown', 'touchstart'].forEach(ev => removeEventListener(ev, firstGesture, true)); if (music.paused) play(); };
+    ['pointerdown', 'keydown', 'touchstart'].forEach(ev => addEventListener(ev, firstGesture, true));
+    if (saved && saved.on) play();                      // already playing on the previous page: carry on
+    musicBtn.addEventListener('click', () => { wanted() ? play() : pause(); });
+    document.addEventListener('visibilitychange', () => { if (document.hidden) { if (!music.paused) pause(); } else if (started) play(); });
+    addEventListener('pagehide', () => { try { sessionStorage.setItem('ssp-music', JSON.stringify({ on: !music.paused && wanted(), t: music.currentTime || 0 })); } catch (e) {} });
+  }
 
   /* ---------- Menu overlay ---------- */
   const menu = $('#menu'), menuBtn = $('#menu-btn');
