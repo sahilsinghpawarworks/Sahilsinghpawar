@@ -88,16 +88,36 @@
   };
   if (readyFired) startReveals(); else document.addEventListener('site:ready', startReveals, { once: true });
 
-  /* ---------- Sound: soft tick on hover (off by default) ---------- */
-  let ctx = null;
+  /* ---------- Sound: soft mechanical click/tick on hover (off by default) ---------- */
+  let ctx = null, noiseBuf = null, lastTick = 0;
+  const click = (t, freq, q, vol, dur) => {
+    // one mechanical transient: a tiny burst of noise through a resonant band-pass
+    const src = ctx.createBufferSource(); src.buffer = noiseBuf;
+    const bp = ctx.createBiquadFilter(); bp.type = 'bandpass'; bp.frequency.value = freq; bp.Q.value = q;
+    const hp = ctx.createBiquadFilter(); hp.type = 'highpass'; hp.frequency.value = 600;
+    const g = ctx.createGain();
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.linearRampToValueAtTime(vol, t + 0.0008);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    src.connect(bp).connect(hp).connect(g).connect(ctx.destination);
+    src.start(t, Math.random() * 0.05); src.stop(t + dur + 0.01);
+  };
   const tickSound = () => {
     if (!document.body.classList.contains('sound-on')) return;
     try {
       ctx = ctx || new (window.AudioContext || window.webkitAudioContext)();
-      const o = ctx.createOscillator(), g = ctx.createGain();
-      o.type = 'sine'; o.frequency.value = 880 + Math.random() * 220;
-      g.gain.setValueAtTime(0.04, ctx.currentTime); g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.12);
-      o.connect(g).connect(ctx.destination); o.start(); o.stop(ctx.currentTime + 0.13);
+      if (ctx.state === 'suspended') ctx.resume();
+      if (!noiseBuf) {
+        noiseBuf = ctx.createBuffer(1, Math.floor(ctx.sampleRate * 0.1), ctx.sampleRate);
+        const d = noiseBuf.getChannelData(0);
+        for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+      }
+      const now = ctx.currentTime;
+      if (now - lastTick < 0.045) return;          // don't machine-gun on fast mouse moves
+      lastTick = now;
+      const v = 0.9 + Math.random() * 0.2;          // slight variation so it feels physical
+      click(now, 3600 * v, 6, 0.22, 0.012);          // crisp "tick"
+      click(now + 0.018, 1900 * v, 5, 0.08, 0.02);   // softer "tock" release
     } catch (e) {}
   };
   document.addEventListener('pointerover', e => { if (e.target.closest('a,button')) tickSound(); });
