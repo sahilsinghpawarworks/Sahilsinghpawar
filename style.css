@@ -566,3 +566,144 @@ body.notes-off .cursor .note{display:none}
 /* make room for the enter prompt under the three bands */
 .loader .band:nth-child(1){top:12%} .loader .band:nth-child(2){top:34.5%} .loader .band:nth-child(3){top:57%}
 .loader .enter{bottom:56px}
+
+/* ==========================================================================
+   Home splash — VR hero that morphs into the timeline as you scroll.
+   Layers are fixed over a 100vh spacer; script.js drives --p (0 → 1).
+   ========================================================================== */
+.intro-space{height:100vh; height:100svh}
+.splash{display:none}
+html.splash-on .splash{display:block; position:fixed; inset:0; z-index:70; pointer-events:none;
+  --sp-blue:#A9BDD1; --sp-blue-2:#D5E1EB; --sp-blue-3:#8EA5BC; --sp-page:#EDF1F4; --sp-card:#FBFCFD;
+  --sp-r:22px; --gut:12px; --ch:74vh}
+.splash.off{visibility:hidden}
+.splash.live .sp-front,.splash.live .sp-row{pointer-events:auto}
+.splash.live .sp-front>*:not(.sp-nav):not(.sp-call){pointer-events:none}
+
+.sp-backdrop{position:absolute; inset:0; background:var(--sp-page)}
+.sp-bg{position:absolute; inset:0; overflow:hidden; background:
+  radial-gradient(60% 75% at 62% 38%, var(--sp-blue-2) 0%, transparent 70%),
+  linear-gradient(160deg, var(--sp-blue) 0%, var(--sp-blue-3) 100%);
+  clip-path:inset(var(--gut) var(--gut) calc(100% - var(--gut) - var(--ch)) var(--gut) round var(--sp-r))}
+.sp-bg i{position:absolute; inset:-20%; background:radial-gradient(35% 30% at 30% 70%, rgba(255,255,255,.35), transparent 70%);
+  animation:sp-drift 16s ease-in-out infinite alternate}
+@keyframes sp-drift{to{transform:translate(18%,-12%) scale(1.15)}}
+
+.sp-card{position:absolute; left:var(--gut); right:var(--gut); top:var(--gut); height:var(--ch)}
+.sp-pslot{position:absolute; bottom:0; left:50%; height:97%; aspect-ratio:1; translate:-46% 0}
+.sp-portrait{position:absolute; left:0; top:0; width:0; height:0; overflow:hidden; will-change:left,top,width,height}
+.sp-portrait::before{content:""; position:absolute; inset:0; background:linear-gradient(180deg,#0B0F2A 0%,#1A2380 60%,var(--c-vr) 100%); opacity:var(--pk,0)}
+.sp-portrait img{position:relative; width:100%; height:100%; object-fit:cover; object-position:50% 18%;
+  transform:translate3d(var(--ix,0px),var(--iy,0px),0) scale(1.012);
+  -webkit-mask-image:linear-gradient(to right,#000 calc(100% - var(--fade,0%)),transparent); mask-image:linear-gradient(to right,#000 calc(100% - var(--fade,0%)),transparent)}
+
+/* giant name: SAHIL sits behind the head, PAWAR in front of the shoulder */
+.sp-word{position:absolute; margin:0; color:#fff; line-height:.8; white-space:nowrap; overflow:hidden; padding-block:.06em;
+  font:400 min(19vw,29vh)/.8 var(--f-display); text-transform:uppercase; letter-spacing:-.045em;
+  transform:translate3d(var(--wx,0px),var(--wy,0px),0)}
+.sp-word span{display:block}
+.sp-w1{left:3%; top:13%}
+.sp-w2{right:3.5%; top:47%; text-shadow:0 2px 30px rgba(40,60,90,.18)}
+
+/* top navigation pill */
+.sp-nav{position:absolute; left:26px; right:26px; top:20px; display:grid; grid-template-columns:1fr auto 1fr; align-items:center;
+  font:500 11px/1 var(--f-mono); letter-spacing:.04em; color:#fff}
+.sp-brand{display:inline-flex; align-items:center; gap:10px; font-size:12px; text-transform:uppercase; letter-spacing:.06em}
+.sp-brand i{width:16px; height:16px; border:1.5px solid currentColor; border-radius:4px; position:relative}
+.sp-brand i::after{content:""; position:absolute; inset:3px; background:currentColor; border-radius:1px; transform:scale(.5)}
+.sp-links{display:flex; gap:clamp(16px,2.4vw,38px)}
+.sp-links a,.sp-more{position:relative}
+.sp-links a::after,.sp-more::after{content:""; position:absolute; left:0; right:0; bottom:-4px; height:1px; background:currentColor; transform:scaleX(0); transform-origin:right; transition:transform .35s var(--ease)}
+.sp-links a:hover::after,.sp-more:hover::after{transform:scaleX(1); transform-origin:left}
+.sp-cta{justify-self:end; border:1px solid rgba(255,255,255,.85); border-radius:99px; padding:11px 20px; color:#fff;
+  font:500 11px/1 var(--f-mono); letter-spacing:.08em; text-transform:uppercase; transition:background .3s, color .3s}
+.sp-cta:hover{background:#fff; color:var(--ink)}
+.splash :focus-visible{outline:2px solid #fff; outline-offset:3px}
+.sp-row :focus-visible{outline-color:var(--ink)}
+
+/* callouts tied to points on the headset */
+.sp-lines{position:absolute; inset:0; width:100%; height:100%; overflow:visible}
+.sp-lines path{fill:none; stroke:rgba(255,255,255,.9); stroke-width:1; stroke-dasharray:1; stroke-dashoffset:1}
+.sp-dot{position:absolute; left:0; top:0; width:14px; height:14px; margin:-7px 0 0 -7px; border-radius:50%;
+  background:rgba(255,255,255,.35); border:1.5px solid #fff; transform:translate3d(var(--dx,0),var(--dy,0),0) scale(0)}
+.sp-dot::after{content:""; position:absolute; inset:-1.5px; border-radius:50%; border:1px solid #fff; animation:sp-ping 2.4s ease-out infinite}
+@keyframes sp-ping{from{transform:scale(1); opacity:.9} to{transform:scale(3); opacity:0}}
+.sp-call{position:absolute; display:flex; align-items:center; gap:14px; color:#fff; font:400 11px/1.35 var(--f-mono); letter-spacing:.03em; text-transform:uppercase;
+  transform:translate3d(var(--cx,0px),var(--cy,0px),0)}
+.sp-call b{display:block; font:400 20px/1 var(--f-display); letter-spacing:-.01em; margin-bottom:5px}
+.sp-call .th{position:relative; width:92px; height:66px; border-radius:12px; overflow:hidden; flex:none; background:rgba(255,255,255,.25);
+  box-shadow:0 10px 30px rgba(30,50,80,.18); transition:transform .5s var(--ease-out)}
+.sp-call .th img{width:100%; height:100%; object-fit:cover}
+.sp-call:hover .th{transform:scale(1.06) rotate(-1.5deg)}
+.sp-call-l{left:3.5%; top:57%}
+.sp-call-r{right:3.5%; top:19%; text-align:right}
+
+/* bottom row of three cards */
+.sp-row{position:absolute; left:var(--gut); right:var(--gut); bottom:var(--gut); top:calc(var(--gut) * 2 + var(--ch));
+  display:grid; grid-template-columns:1fr 1.25fr 1fr; gap:var(--gut)}
+.sp-c{position:relative; background:var(--sp-card); border-radius:var(--sp-r); padding:clamp(14px,2vh,24px) clamp(16px,1.8vw,28px);
+  display:flex; flex-direction:column; justify-content:flex-end; gap:8px; color:var(--ink); transform:translate3d(0,var(--ry,0px),0)}
+/* seams: parallel slants with an even gap; script.js swaps these for rounded-corner paths */
+.sp-row{--sl:30px}
+.sp-c1,.sp-c2,.sp-c3{border-radius:0}
+.sp-c1{clip-path:polygon(0 0, 100% 0, calc(100% - var(--sl)) 100%, 0 100%); padding-right:calc(var(--sl) + 12px)}
+.sp-c2{clip-path:polygon(var(--sl) 0, calc(100% - var(--sl)) 0, 100% 100%, 0 100%); align-items:center; justify-content:center; text-align:center; padding-inline:calc(var(--sl) + 16px)}
+.sp-c3{clip-path:polygon(0 0, 100% 0, 100% 100%, var(--sl) 100%); padding-left:calc(var(--sl) + 12px)}
+.sp-c p{font:400 clamp(13px,1.15vw,16px)/1.3 var(--f-display); text-transform:none; max-width:30ch}
+.sp-c .mono-s{font:500 10px/1.4 var(--f-mono); color:var(--ink-2)}
+.sp-ico{display:flex; gap:8px; margin-bottom:auto}
+.sp-ico svg{width:34px; height:34px; padding:8px; border:1px solid var(--rule); border-radius:50%; fill:none; stroke:var(--ink); stroke-width:1.4}
+.sp-more{align-self:flex-start; font:500 11px var(--f-mono); text-transform:uppercase; letter-spacing:.06em; text-decoration:underline; text-underline-offset:3px}
+.sp-more:hover{text-decoration:none}
+.sp-title{font:400 clamp(20px,2.3vw,34px)/1 var(--f-display); letter-spacing:-.02em}
+.sp-pill{position:absolute; z-index:2; top:calc(var(--gut) / -2); left:50%; translate:-50% -50%; display:flex; align-items:center; gap:10px; height:34px; padding:0 16px 0 12px;
+  border-radius:99px; background:var(--ink); color:#fff; font:500 10px/1 var(--f-mono); letter-spacing:.08em; text-transform:uppercase; white-space:nowrap;
+  transition:transform .3s var(--ease-out), box-shadow .3s}
+.sp-pill:hover{transform:scale(1.05); box-shadow:0 8px 24px rgba(0,0,0,.25)}
+.sp-pill i{position:relative; width:10px; height:16px; border:1.5px solid #fff; border-radius:6px}
+.sp-pill i::after{content:""; position:absolute; left:50%; top:3px; width:2px; height:4px; margin-left:-1px; background:#fff; border-radius:1px; animation:sp-wheel 1.6s ease-in-out infinite}
+@keyframes sp-wheel{0%{transform:translateY(0); opacity:1} 70%{transform:translateY(5px); opacity:0} 100%{opacity:0}}
+.sp-c2 .sp-title{margin-top:14px}
+.sp-num{display:flex; align-items:flex-end; gap:10px; margin-bottom:auto}
+.sp-num b{font:400 clamp(44px,5vw,76px)/.8 var(--f-display); letter-spacing:-.04em}
+.sp-num span{font:500 10px/1.3 var(--f-mono); text-transform:uppercase; letter-spacing:.06em; color:var(--ink-2)}
+
+/* arrival: everything rises into place once the portrait has decoded */
+.splash .sp-word span{transform:translateY(105%); transition:transform 1.2s var(--ease)}
+.splash .sp-w2 span{transition-delay:.12s}
+.splash .sp-portrait img{opacity:0; transition:opacity 1s ease .15s}
+.splash .sp-nav,.splash .sp-call,.splash .sp-c,.splash .sp-pill{opacity:0; transition:opacity .8s ease, translate 1s var(--ease-out)}
+.splash .sp-nav{translate:0 -12px} .splash .sp-call,.splash .sp-c{translate:0 24px}
+.splash .sp-pill{translate:-50% calc(-50% + 24px)}
+.splash.in .sp-pill{opacity:1; translate:-50% -50%; transition-delay:.5s}
+.splash.in .sp-word span{transform:none}
+.splash.in .sp-portrait img{opacity:1}
+.splash.in .sp-nav,.splash.in .sp-call,.splash.in .sp-c{opacity:1; translate:0 0}
+.splash.in .sp-call{transition-delay:.7s} .splash.in .sp-c1{transition-delay:.35s} .splash.in .sp-c2{transition-delay:.45s} .splash.in .sp-c3{transition-delay:.55s}
+.splash.in .sp-lines path{stroke-dashoffset:0; transition:stroke-dashoffset 1.1s var(--ease) .9s}
+.splash.in .sp-dot{transform:translate3d(var(--dx,0),var(--dy,0),0) scale(1); transition:transform .5s var(--ease-out) .85s}
+.splash.morphing *{transition:none !important}
+
+@media (max-width:900px){
+  html.splash-on .splash{--ch:70vh}
+  .sp-links{display:none}
+  .sp-nav{grid-template-columns:1fr auto}
+  .sp-call b{font-size:16px}
+  .sp-call .th{width:64px; height:48px}
+  .sp-call .tx{display:none}
+}
+@media (max-width:640px){
+  html.splash-on .splash{--gut:10px; --ch:68vh; --sp-r:18px}
+  .sp-word{font-size:27vw}
+  .sp-w1{top:12%; left:4%} .sp-w2{top:auto; bottom:5%; right:4%}
+  .sp-call,.sp-dot,.sp-lines{display:none}
+  .sp-pslot{height:82%; translate:-42% 0}
+  .sp-row{grid-template-columns:1fr}
+  .sp-c1,.sp-c3{display:none}
+  .sp-pill{margin-left:0}
+  .sp-call-l{top:66%} .sp-call-r{top:20%}
+}
+@media (prefers-reduced-motion:reduce){
+  .sp-bg i,.sp-dot::after,.sp-pill i::after{animation:none}
+  .splash *{transition:none !important}
+}

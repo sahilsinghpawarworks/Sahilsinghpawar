@@ -11,13 +11,45 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<script>document.documentElement.classList.add('js');setTimeout(function(){if(!document.querySelector('.loader'))document.documentElement.classList.add('ready')},6000);</script>
+<script>document.documentElement.classList.add('js');setTimeout(function(){if(!document.querySelector('.loader,.splash'))document.documentElement.classList.add('ready')},6000);</script>
 <a class="skip" href="#main">Skip to content</a>
-<div class="loader" role="button" tabindex="0" aria-label="Enter Sahil Singh Pawar's portfolio">
-  <div class="band"><p>Researching the problem</p><p>It might take a few iterations</p><p>Sketching the right flow</p><p>Calibrating the headset</p><p>Welcome to the work</p></div><div class="band"><p>Researching the problem</p><p>It might take a few iterations</p><p>Sketching the right flow</p><p>Calibrating the headset</p><p>Welcome to the work</p></div><div class="band"><p>Researching the problem</p><p>It might take a few iterations</p><p>Sketching the right flow</p><p>Calibrating the headset</p><p>Welcome to the work</p></div>
-  <span class="pct">▸ 0%</span>
-  <span class="enter" aria-hidden="true"><span class="note">Click anywhere to enter</span><span class="mono-s">▸ Enter</span></span>
-</div>
+<section class="splash" aria-label="Introduction">
+  <div class="sp-backdrop"></div>
+  <div class="sp-bg"><i></i></div>
+  <div class="sp-card sp-back" aria-hidden="true">
+    <div class="sp-pslot"></div>
+    <p class="sp-word sp-w1"><span>Sahil</span></p>
+  </div>
+  <div class="sp-portrait"><img src="images/portrait-vr.webp" srcset="images/portrait-vr-640.webp 640w, images/portrait-vr.webp 1024w" sizes="(max-width:760px) 90vw, 70vh" alt="Sahil Singh Pawar wearing a VR headset" width="1024" height="1024" fetchpriority="high" decoding="async"></div>
+  <div class="sp-card sp-front">
+    <nav class="sp-nav" aria-label="Intro">
+      <a class="sp-brand" href="index.html"><i aria-hidden="true"></i>Sahil Singh Pawar</a>
+      <ul class="sp-links"><li><a href="work.html">Work</a></li><li><a href="about.html">About</a></li><li><a href="contact.html">Contact</a></li><li><a href="https://www.behance.net/sahilpawar2" target="_blank" rel="noopener">Behance ↗</a></li></ul>
+      <button class="sp-go sp-cta" type="button">Enter ▸</button>
+    </nav>
+    <p class="sp-word sp-w2" aria-hidden="true"><span>Pawar</span></p>
+    <svg class="sp-lines" aria-hidden="true"><path pathLength="1"/><path pathLength="1"/></svg>
+    <i class="sp-dot" aria-hidden="true"></i><i class="sp-dot" aria-hidden="true"></i>
+    <a class="sp-call sp-call-l" href="vr-iit-roorkee.html"><span class="th"><span class="art art--vr"></span></span><span class="tx"><b>VR at IIT Roorkee</b>Virtual campus with an AI guide</span></a>
+    <a class="sp-call sp-call-r" href="skyverse.html"><span class="tx"><b>SkyVerse</b>AR experience · UX</span><span class="th"><img src="images/skyverse-cover.jpg" alt="" loading="lazy"></span></a>
+  </div>
+  <div class="sp-row">
+    <button class="sp-go sp-pill" type="button" aria-label="Enter the portfolio"><i></i><span>Scroll or press Enter</span></button>
+    <div class="sp-c sp-c1">
+      <span class="sp-ico" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="9" rx="4.5"/><circle cx="8.5" cy="12.5" r="1.4"/><circle cx="15.5" cy="12.5" r="1.4"/></svg><svg viewBox="0 0 24 24"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/></svg></span>
+      <p>UI/UX designer &amp; design researcher. M.Des, NIFT.</p>
+      <a class="sp-more" href="about.html">About me</a>
+    </div>
+    <div class="sp-c sp-c2">
+      <h1 class="sp-title">Designing for screens,<br>spaces &amp; headsets</h1>
+      <p class="mono-s">Research · UX · UI · AR · 3D experience</p>
+    </div>
+    <div class="sp-c sp-c3">
+      <p class="sp-num"><b>08</b><span>Selected<br>projects</span></p>
+      <p class="mono-s">2024 – 2026 · Now in VR</p>
+    </div>
+  </div>
+</section>
 <div class="curtain" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
 <aside class="rail rail-l" aria-label="Site">
   <a class="v" href="index.html">▸ Sahil Singh Pawar</a>
@@ -49,6 +81,7 @@
   </div>
 </div>
 <main id="main" tabindex="-1">
+<div class="intro-space" aria-hidden="true"></div>
 
 <section class="timeline" aria-label="Selected projects" style="height:580vh">
   <div class="stage">
@@ -75,7 +108,7 @@
 
 <section class="statement page" aria-labelledby="intro">
   <span class="note" style="left:calc(var(--rail) + 6%); top:30px" aria-hidden="true">Hi, I'm Sahil · open to work</span>
-  <h1 id="intro" class="display" data-split>UI/UX designer<br>&amp; design researcher,<br>now building in VR</h1>
+  <h2 id="intro" class="display" data-split>UI/UX designer<br>&amp; design researcher,<br>now building in VR</h2>
   <p class="sub" data-reveal="up">Master of Design in UI/UX from NIFT, with a background in footwear design from FDDI. I design research-led digital products, AR experiences and wayfinding, and I'm currently working on virtual reality at IIT Roorkee.</p>
   <p class="sub" data-reveal="up"><a class="btn btn-line" href="work.html">See all work</a></p>
 </section>

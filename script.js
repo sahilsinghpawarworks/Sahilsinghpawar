@@ -44,7 +44,153 @@
     loader.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); finish(); } });
     document.documentElement.style.overflow = 'hidden';
     document.addEventListener('site:ready', () => { document.documentElement.style.overflow = ''; }, { once: true });
-  } else ready();
+  } else if (!$('.splash')) ready();
+
+  /* ---------- Home splash: VR hero that morphs into the timeline ---------- */
+  const splash = $('.splash'), space = $('.intro-space');
+  if (splash && space) {
+    root.classList.add('splash-on');
+    const bg = $('.sp-bg', splash), slot = $('.sp-pslot', splash), por = $('.sp-portrait', splash), img = $('img', por);
+    const w1 = $('.sp-w1', splash), w2 = $('.sp-w2', splash), nav = $('.sp-nav', splash), rowCards = $$('.sp-c', splash);
+    const calls = $$('.sp-call', splash), dots = $$('.sp-dot', splash), paths = $$('.sp-lines path', splash), card = $('.sp-front', splash);
+    const frameEl = $('.timeline .stage .lines'), cluster0 = $('.timeline .cluster'), tile0 = cluster0 && $('.t-art', cluster0);
+    // points on the headset (fractions of the square photo) each callout points at
+    const ANCHORS = [[0.345, 0.47], [0.63, 0.33]];
+    const clamp = v => Math.min(1, Math.max(0, v));
+    const ease = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    const seg = (p, a, b) => ease(clamp((p - a) / (b - a)));
+    const lerp = (a, b, t) => a + (b - a) * t;
+    const R = el => { const r = el.getBoundingClientRect(); return { x: r.left, y: r.top, w: r.width, h: r.height }; };
+    let spaceH = 1, start = null, cardR = null, p = 0, pt = 0, mx = 0, my = 0, tmx = 0, tmy = 0, raf = 0, lastT = 0, busy = false, readyDone = false;
+
+    // bottom cards: slanted seams with rounded corners (clip-path paths need pixels, so build them here)
+    const pill = $('.sp-pill', splash);
+    const roundPoly = (pts, rs) => pts.map((pt, i) => {
+      const a = pts[(i + pts.length - 1) % pts.length], b = pts[(i + 1) % pts.length], r = rs[i];
+      const u = (q) => { const dx = q[0] - pt[0], dy = q[1] - pt[1], l = Math.hypot(dx, dy) || 1, k = Math.min(r, l / 2) / l; return [pt[0] + dx * k, pt[1] + dy * k]; };
+      const p1 = u(a), p2 = u(b);
+      return `${i ? 'L' : 'M'}${p1[0].toFixed(1)} ${p1[1].toFixed(1)} Q${pt[0]} ${pt[1]} ${p2[0].toFixed(1)} ${p2[1].toFixed(1)}`;
+    }).join(' ') + 'Z';
+    const shapeCards = () => {
+      const R0 = parseFloat(getComputedStyle(splash).getPropertyValue('--sp-r')) || 22, r1 = 12;
+      const sl = parseFloat(getComputedStyle(rowCards[0].parentNode).getPropertyValue('--sl')) || 30;
+      rowCards.forEach((c, i) => {
+        const w = c.offsetWidth, h = c.offsetHeight; if (!w) return;
+        const pts = i === 0 ? [[0, 0], [w, 0], [w - sl, h], [0, h]]
+                  : i === 1 ? [[sl, 0], [w - sl, 0], [w, h], [0, h]]
+                  :           [[0, 0], [w, 0], [w, h], [sl, h]];
+        const rs = i === 0 ? [R0, r1, r1, R0] : i === 1 ? [r1, r1, R0, R0] : [R0, R0, R0, r1];
+        c.style.clipPath = `path('${roundPoly(pts, rs)}')`;
+      });
+    };
+    const measure = () => {
+      spaceH = space.offsetHeight || innerHeight; shapeCards();
+      start = R(slot); cardR = R(card);
+      pt = clamp(scrollY / spaceH);
+    };
+    // targets are measured where they WILL rest when the intro finishes, so nothing chases the rising stage
+    const rest = () => Math.max(0, spaceH - scrollY);
+    const tileRect = () => {
+      if (!tile0) return { x: innerWidth * .2, y: innerHeight * .25, w: innerWidth * .3, h: innerHeight * .4 };
+      const c = cluster0.getBoundingClientRect();
+      return { x: c.left + tile0.offsetLeft, y: c.top + tile0.offsetTop - rest(), w: tile0.offsetWidth, h: tile0.offsetHeight };
+    };
+    const frameRect = () => { if (!frameEl) return cardR; const r = R(frameEl); r.y -= rest(); return r; };
+    const insetOf = r => `inset(${r.y}px ${innerWidth - r.x - r.w}px ${innerHeight - r.y - r.h}px ${r.x}px round `;
+
+    const render = () => {
+      const q = reduce ? 0 : p;                       // reduced motion: crossfade only, nothing travels
+      // 1 — blue card shrinks/grows into the timeline's guide-line frame and fades to paper
+      const f = frameRect(), k = seg(q, 0, .8);
+      const box = { x: lerp(cardR.x, f.x, k), y: lerp(cardR.y, f.y, k), w: lerp(cardR.w, f.w, k), h: lerp(cardR.h, f.h, k) };
+      bg.style.clipPath = insetOf(box) + lerp(22, 0, k).toFixed(1) + 'px)';
+      bg.style.opacity = (1 - seg(p, .32, .85)).toFixed(3);
+      $('.sp-backdrop', splash).style.opacity = (1 - seg(p, .15, .6)).toFixed(3);
+      // 2 — portrait flies into the first project tile, then hands over to it
+      const t = tileRect(), kp = seg(q, .08, .92);
+      const pr = { x: lerp(start.x, t.x, kp), y: lerp(start.y, t.y, kp), w: lerp(start.w, t.w, kp), h: lerp(start.h, t.h, kp) };
+      por.style.cssText = `left:${pr.x}px;top:${pr.y}px;width:${pr.w}px;height:${pr.h}px;opacity:${(1 - seg(p, .82, 1)).toFixed(3)};--pk:${seg(q, .12, .7).toFixed(3)};--fade:${((1 - seg(q, 0, .2)) * 12).toFixed(2)}%`;
+      por.style.setProperty('--ix', (mx * -10 * (1 - kp)).toFixed(2) + 'px');
+      por.style.setProperty('--iy', (my * -6 * (1 - kp)).toFixed(2) + 'px');
+      // 3 — the name splits apart, nav lifts, cards drop, callouts retract
+      const kw = seg(q, 0, .55);
+      w1.style.setProperty('--wx', (mx * 14 - kw * innerWidth * .35).toFixed(1) + 'px'); w1.style.setProperty('--wy', (my * 8 - kw * 40).toFixed(1) + 'px');
+      w2.style.setProperty('--wx', (mx * -18 + kw * innerWidth * .35).toFixed(1) + 'px'); w2.style.setProperty('--wy', (my * -8 + kw * 40).toFixed(1) + 'px');
+      w1.style.opacity = w2.style.opacity = (1 - seg(p, .05, .5)).toFixed(3);
+      nav.style.transform = `translate3d(0,${(-seg(q, 0, .3) * 60).toFixed(1)}px,0)`; nav.style.opacity = (1 - seg(p, 0, .25)).toFixed(3);
+      rowCards.forEach((c, i) => { const kc = seg(q, i * .05, .38 + i * .05); c.style.setProperty('--ry', (kc * innerHeight * .3).toFixed(1) + 'px'); c.style.opacity = (1 - seg(p, i * .05, .32 + i * .05)).toFixed(3); });
+      pill.style.transform = `translate3d(0,${(seg(q, .05, .43) * innerHeight * .3).toFixed(1)}px,0)`; if (splash.classList.contains('in')) pill.style.opacity = (1 - seg(p, .02, .3)).toFixed(3);
+      const kc = 1 - seg(p, 0, .28);
+      calls.forEach((c, i) => {
+        c.style.setProperty('--cx', (mx * (i ? -6 : 6)).toFixed(1) + 'px'); c.style.setProperty('--cy', (my * 5).toFixed(1) + 'px'); c.style.opacity = kc.toFixed(3);
+        // dot on the headset, mapped through object-fit:cover of the (moving) portrait
+        const S = Math.max(pr.w, pr.h), ox = (pr.w - S) * .5, oy = (pr.h - S) * .18;
+        const dx = pr.x + ox + ANCHORS[i][0] * S + mx * -10 * (1 - kp) - cardR.x, dy = pr.y + oy + ANCHORS[i][1] * S + my * -6 * (1 - kp) - cardR.y;
+        dots[i].style.setProperty('--dx', dx.toFixed(1) + 'px'); dots[i].style.setProperty('--dy', dy.toFixed(1) + 'px'); dots[i].style.opacity = kc.toFixed(3);
+        const cr = c.getBoundingClientRect(), th = $('.th', c).getBoundingClientRect();
+        const ax = (i ? cr.left - 12 : cr.right + 12) - cardR.x, ay = th.top + th.height / 2 - cardR.y;
+        const mxp = i ? Math.max(dx + 30, ax - 60) : Math.min(dx - 30, ax + 60);
+        paths[i].setAttribute('d', `M${ax.toFixed(1)} ${ay.toFixed(1)} H${mxp.toFixed(1)} L${dx.toFixed(1)} ${dy.toFixed(1)}`);
+        paths[i].style.opacity = kc.toFixed(3);
+      });
+      if (reduce) splash.style.opacity = (1 - p).toFixed(3);
+      splash.classList.toggle('live', p < .3);
+      splash.classList.toggle('off', p > .999);
+      if (!readyDone && p > .22) { readyDone = true; try { sessionStorage.setItem('ssp-entered', '1'); } catch (e) {} ready(); }
+    };
+
+    const tick = now => {
+      const dt = Math.min(64, now - (lastT || now)); lastT = now;
+      const a = 1 - Math.exp(-dt / (busy ? 60 : 90));
+      p += (pt - p) * a; mx += (tmx - mx) * a * .6; my += (tmy - my) * a * .6;
+      if (reduce || Math.abs(pt - p) < .0004) p = pt;
+      if (p > 0 && p < 1) splash.classList.add('morphing'); else splash.classList.remove('morphing');
+      render();
+      const still = p === pt && Math.abs(tmx - mx) < .002 && Math.abs(tmy - my) < .002;
+      raf = still ? 0 : requestAnimationFrame(tick);
+      if (!raf) lastT = 0;
+    };
+    const kick = () => { if (!raf) raf = requestAnimationFrame(tick); };
+
+    addEventListener('scroll', () => { pt = clamp(scrollY / spaceH); kick(); }, { passive: true });
+    addEventListener('resize', () => { measure(); render(); kick(); });
+    if (matchMedia('(hover:hover)').matches && !reduce) addEventListener('pointermove', e => {
+      if (p > .5) return; tmx = e.clientX / innerWidth - .5; tmy = e.clientY / innerHeight - .5; kick();
+    }, { passive: true });
+
+    // Enter: the same transition as scrolling, driven by a tween of the real scroll position
+    const block = e => { if (busy) e.preventDefault(); };
+    ['wheel', 'touchmove'].forEach(ev => addEventListener(ev, block, { passive: false }));
+    const go = () => {
+      if (busy || scrollY >= spaceH - 2) return;
+      busy = true; splash.classList.add('morphing');
+      const from = scrollY, dur = reduce ? 0 : 1500, t0 = performance.now();
+      const step = now => {
+        const k = dur ? clamp((now - t0) / dur) : 1;
+        scrollTo(0, from + (spaceH - from) * ease(k));
+        if (k < 1) requestAnimationFrame(step);
+        else { busy = false; $('#main')?.focus({ preventScroll: true }); }
+      };
+      requestAnimationFrame(step);
+    };
+    $$('.sp-go', splash).forEach(b => b.addEventListener('click', go));
+    addEventListener('keydown', e => {
+      if (e.key !== 'Enter' || scrollY >= spaceH - 2 || e.target.closest('a,button,input,textarea,select')) return;
+      e.preventDefault(); go();
+    });
+    addEventListener('keydown', e => { if (busy && [' ', 'PageDown', 'PageUp', 'ArrowDown', 'ArrowUp', 'Home', 'End'].includes(e.key)) e.preventDefault(); });
+
+    // Returning visitors (this session, or arriving from another page) land on the timeline
+    measure();
+    if (entered || fromNav) { scrollTo(0, spaceH); pt = p = 1; readyDone = true; ready(); }
+    else if (reduce) { readyDone = true; }
+    else { p = pt; }
+    render();
+    const show = () => requestAnimationFrame(() => splash.classList.add('in'));
+    (img.decode ? img.decode() : Promise.resolve()).then(show, show);
+    setTimeout(show, 2500);
+    if (document.fonts) document.fonts.ready.then(() => { measure(); render(); });
+  }
 
   /* ---------- Curtain on the way out to another page ---------- */
   document.addEventListener('click', e => {
