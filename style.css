@@ -221,7 +221,6 @@ body:not(.menu-open) .menu{transition:visibility 0s .6s}
 .track{position:absolute; top:7%; bottom:12%; left:0; will-change:transform}
 .cluster{position:absolute; top:0; bottom:0; width:72vmax}
 .tile{position:absolute; overflow:hidden; display:block; transition:transform .5s var(--ease-out), filter .4s}
-.cluster:not(.on) .tile{filter:grayscale(.85) opacity(.55)}
 .cluster.on .tile.t-art{transform:scale(1.02)}
 .t-label{background:#fff; border:1px solid var(--rule); padding:10px; font:500 10px/1.5 var(--f-mono); text-transform:uppercase; letter-spacing:.06em; color:var(--ink-2)}
 .t-label b{display:block; font:400 20px/1 var(--f-display); color:var(--ink); letter-spacing:-.02em; margin-bottom:6px}
@@ -229,7 +228,6 @@ body:not(.menu-open) .menu{transition:visibility 0s .6s}
 .t-wire i{display:block; height:6px; background:var(--rule); border-radius:3px}
 .t-wire i:nth-child(2){width:70%} .t-wire i:nth-child(3){height:26px; background:var(--accent)} .t-wire i:nth-child(4){width:45%}
 .cname{position:absolute; font-size:clamp(28px,3.6vmax,44px); white-space:nowrap; z-index:2; transition:opacity .4s}
-.cluster:not(.on) .cname{opacity:.25}
 .ribbon{position:absolute; top:48.5%; height:3.6%; left:0; right:0; display:flex; gap:6px; z-index:1}
 .ribbon .rb{flex:none; width:5.2vmax; height:100%; background:var(--rule)}
 .ribbon .rb:nth-child(5n+1){background:#2A2A2A} .ribbon .rb:nth-child(5n+2){background:#CFCBC3} .ribbon .rb:nth-child(5n+3){background:var(--c-ar)} .ribbon .rb:nth-child(5n+4){background:#E9E7E1} .ribbon .rb:nth-child(7n){background:var(--c-reuse)}
@@ -429,8 +427,6 @@ body:not(.menu-open) .menu{transition:visibility 0s .6s}
 .cluster .cname{transition:opacity .4s, transform .7s var(--ease-out), letter-spacing .7s var(--ease-out)}
 .cluster .cname::after{content:""; position:absolute; left:0; right:0; bottom:.04em; height:1px; background:currentColor; transform:scaleX(0); transform-origin:left; transition:transform .7s var(--ease)}
 
-.track.hovering .cluster:not(.hover) .tile{filter:grayscale(1) opacity(.3)}
-.track.hovering .cluster:not(.hover) .cname{opacity:.12}
 .ready .cluster.hover .tile{filter:none; z-index:3}
 .ready .cluster.hover .tile:nth-child(1){transform:scale(1.06)}
 .ready .cluster.hover .tile:nth-child(2){transform:translate(1.4vmax,-1.4vmax) rotate(2.5deg)}
@@ -466,8 +462,6 @@ body.notes-off .cursor .note{display:none}
 .rb .art{transition:transform .5s var(--ease-out)}
 .rb-fill{position:absolute; inset:0}
 .ribbon.active{z-index:6}
-.ribbon.active .rb{filter:grayscale(.7) opacity(.55)}
-.ribbon.active .rb.near{filter:grayscale(.2) opacity(.9)}
 .ribbon.active .rb.hot{filter:none; outline-color:var(--ink)}
 .rb.hot .art{transform:scale(1.25)}
 .rb-tip{position:absolute; bottom:calc(100% + 3.2vmax); left:0; z-index:7; pointer-events:none;
