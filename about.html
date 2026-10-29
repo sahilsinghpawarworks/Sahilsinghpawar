@@ -56,7 +56,17 @@
   <div class="titlebar big"><h1 class="display" data-split>About</h1></div>
 
   <section class="two" data-reveal="rule" aria-labelledby="bio-h" style="margin-top:28px">
-    <h2 id="bio-h">Short bio</h2>
+    <div class="bio-head">
+      <h2 id="bio-h">Short bio</h2>
+      <figure class="me" data-reveal="up">
+        <div class="me-frame">
+          <span class="me-panel" aria-hidden="true"></span>
+          <img class="me-img" src="images/about-portrait.webp" width="900" height="910" alt="Portrait of Sahil Singh Pawar in a navy suit and red paisley tie, looking to the side" loading="lazy" decoding="async">
+          <span class="me-tag mono-s" aria-hidden="true">S.S.P. — UI/UX &amp; XR</span>
+        </div>
+        <figcaption class="note" aria-hidden="true">(that's me, mid-thought)<svg viewBox="0 0 120 70" preserveAspectRatio="none"><path d="M4 8 C 40 4, 70 18, 86 40 S 104 62, 112 58 M112 58 L 100 56 M112 58 L 108 46"/></svg></figcaption>
+      </figure>
+    </div>
     <div class="body">
       <p class="lead">Master of Design in UI/UX from NIFT, with a background in footwear design from FDDI. Right now I'm designing for virtual reality at IIT Roorkee.</p>
       <p>I specialise in user experience design, research, service design and digital product experiences. Before UX, I worked in footwear and accessory design, including a full-time role as Assistant Accessory Designer at Rajesh Pratap Singh.</p>
@@ -84,9 +94,13 @@
     <div class="body skills">
       <div><h3>Research</h3><p>Design research, usability testing, journey mapping, system mapping, causal loops, workshops, craft research</p></div>
       <div><h3>Design</h3><p>UX strategy, interaction and interface design, service design, AR experiences, footwear and accessory design</p></div>
-      <div><h3>Tools</h3><p>Figma, Framer, Miro, Zeplin, Google Analytics, Illustrator, Photoshop, InDesign, Procreate, TouchDesigner, Stable Diffusion</p></div>
-      <div><h3>AI tools</h3><p>Figma AI, Framer AI, ChatGPT, Relume AI, v0, Lovable</p></div>
+      <div class="wide"><h3>Tools</h3><p>Figma, Framer, Miro, Zeplin, Google Analytics, Illustrator, Photoshop, InDesign, Procreate, TouchDesigner, Stable Diffusion</p></div>
     </div>
+  </section>
+
+  <section class="two" data-reveal="rule" aria-labelledby="ai-h">
+    <h2 id="ai-h">AI tools</h2>
+    <div class="body ai"><div class="ai-g"><h3>UI/UX design</h3><ul class="ai-tags"><li>Figma Make</li><li>Google Stitch</li><li>Uizard</li><li>UX Pilot</li><li>Relume</li><li>Framer AI</li><li>Dovetail</li><li>Maze</li><li>Attention Insight</li><li>v0</li><li>Lovable</li></ul></div><div class="ai-g"><h3>Immersive VR / AR / XR</h3><ul class="ai-tags"><li>Unity AI</li><li>Spline AI</li><li>Meshy AI</li><li>Tripo AI</li><li>Hyper3D Rodin</li><li>Convai</li><li>Inworld AI</li><li>ElevenLabs</li><li>NVIDIA ACE</li></ul></div><div class="ai-g"><h3>Creative production &amp; development</h3><ul class="ai-tags"><li>Adobe Firefly</li><li>Midjourney</li><li>Runway</li><li>Recraft</li><li>ChatGPT</li><li>Claude Code</li><li>Cursor</li><li>GitHub Copilot</li></ul></div></div>
   </section>
 
   <section class="two" data-reveal="rule" aria-labelledby="xp-h">
@@ -106,8 +120,7 @@
   <section class="two" data-reveal="rule" aria-labelledby="cv-h">
     <h2 id="cv-h">Resume</h2>
     <div class="body"><p>Full history, education and skills on one page.</p>
-      <!-- When hosting, put resume.pdf in this folder and change href to "resume.pdf". -->
-      <p><a class="btn" href="https://drive.google.com/file/d/1YAY8quk_-mbQ_wb-bIRwmSoUnrnvf5Nq/view?usp=drive_link" target="_blank" rel="noopener">View resume (PDF) ↗</a> &nbsp; <a class="btn btn-line" href="https://sahilsinghpawar.framer.website/resume" target="_blank" rel="noopener">Resume page ↗</a></p></div>
+      <p><a class="btn" href="resume.pdf" target="_blank" rel="noopener">View resume (PDF) ↗</a> &nbsp; <a class="btn btn-line" href="resume.pdf" download="Sahil-Singh-Pawar-Resume.pdf">Download ↓</a></p></div>
   </section>
 </div>
 </main>
