@@ -714,3 +714,9 @@ html.splash-on .splash{display:block; position:fixed; inset:0; z-index:70; point
 .cf-toggle{display:flex; align-items:center; gap:8px; margin:18px auto 0; padding:12px 22px; border:1px solid var(--ink); border-radius:99px;
   font:500 11px/1 var(--f-mono); letter-spacing:.08em; text-transform:uppercase; transition:background .3s, color .3s}
 .cf-toggle:hover{background:var(--ink); color:var(--paper)}
+
+/* lists inside case-study text */
+.block .body ul{display:grid; gap:8px; padding-left:0}
+.block .body li{position:relative; padding-left:18px}
+.block .body li::before{content:"▸"; position:absolute; left:0; top:0; color:var(--ink)}
+.block .body b{color:var(--ink); font-weight:500}
