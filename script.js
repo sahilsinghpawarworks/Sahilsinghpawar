@@ -299,7 +299,7 @@
   /* ---------- Background music: soft, looping, on by default, remembers its place across pages ---------- */
   const musicBtn = $('[data-toggle="music"]');
   if (musicBtn) {
-    const VOL = 0.16;                                   // light background level
+    const VOL = 0.09;                                   // soft background level (track is also mastered quieter & warmer)
     const music = new Audio(); music.src = 'audio/bg-music.mp3'; music.loop = true; music.preload = 'none'; music.volume = 0;
     let fadeRaf = 0, started = false;
     const fadeTo = (target, ms, done) => {
@@ -318,7 +318,7 @@
       if (!wanted() || document.hidden) return;
       if (!started && saved && saved.t) { try { music.currentTime = saved.t; } catch (e) {} }
       const p = music.play();
-      if (p) p.then(() => { started = true; fadeTo(VOL, started && saved ? 1200 : 2500); }).catch(() => {});
+      if (p) p.then(() => { started = true; fadeTo(VOL, started && saved ? 1500 : 4000); }).catch(() => {});
     };
     const pause = () => fadeTo(0, 600, () => music.pause());
     // browsers only allow sound after a visitor interacts: start on the first click / tap / key
@@ -328,6 +328,17 @@
     musicBtn.addEventListener('click', () => { wanted() ? play() : pause(); });
     document.addEventListener('visibilitychange', () => { if (document.hidden) { if (!music.paused) pause(); } else if (started) play(); });
     addEventListener('pagehide', () => { try { sessionStorage.setItem('ssp-music', JSON.stringify({ on: !music.paused && wanted(), t: music.currentTime || 0 })); } catch (e) {} });
+  }
+
+  /* ---------- About portrait: drifts gently toward the cursor ---------- */
+  const me = $('.me');
+  if (me && !reduce && matchMedia('(hover:hover)').matches) {
+    me.addEventListener('pointermove', e => {
+      const r = me.getBoundingClientRect();
+      me.style.setProperty('--tx', (((e.clientX - r.left) / r.width - .5) * 10).toFixed(1) + 'px');
+      me.style.setProperty('--ty', (((e.clientY - r.top) / r.height - .5) * 6).toFixed(1) + 'px');
+    });
+    me.addEventListener('pointerleave', () => { me.style.setProperty('--tx', '0px'); me.style.setProperty('--ty', '0px'); });
   }
 
   /* ---------- Menu overlay ---------- */
