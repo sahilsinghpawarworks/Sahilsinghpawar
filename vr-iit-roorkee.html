@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>VR at IIT Roorkee · Sahil Singh Pawar</title>
-  <meta name="description" content="I'm currently designing for virtual reality at the Indian Institute of Technology Roorkee, looking at how people move, interact and stay oriented inside immersive environments.">
+  <meta name="description" content="An interactive VR recreation of the IIT Roorkee campus with Jyun, a voice-driven AI guide, and a hands-on sand-moulding lab, built in Unity 6 for Meta Quest 2.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Serif&display=swap">
@@ -55,33 +55,32 @@
   <div class="topnav"><a class="back" href="work.html" data-back><span aria-hidden="true">←</span> All work</a><span class="crumb">IIT Roorkee</span></div>
   <div class="titlebar"><h1 class="display" data-split>VR at IIT Roorkee<sup>(2026)</sup></h1></div>
   <div class="chips"><a class="chip" href="work.html#3d-experience">3D Experience</a><a class="chip" href="work.html#research">Research</a><a class="chip" href="work.html#ux-design">UX Design</a></div>
-  <div class="hero-media" data-reveal="clip"><div class="art art--vr" role="img" aria-label="Cover for VR at IIT Roorkee (add your project image)"></div></div>
+  <div class="hero-media" data-reveal="clip"><img src="images/vr-cover.jpg" alt="The James Thomason Building in VR, with Jyun the AI guide beside an info card"></div>
   <p class="scroll-more"><span class="note hand-in" data-reveal>(Scroll for more)</span><span class="arr" aria-hidden="true">↓</span></p>
 
   <section class="details" data-reveal="rule" aria-label="Project details">
     <div class="facts">
       <p><span>Made for</span> IIT Roorkee</p>
-      <p><span>Role in project is</span> [YOUR ROLE]</p>
-      <p><span>Team is</span> [TEAM]</p>
-      <p><span>Date is</span> Ongoing</p>
+      <p><span>Role in project is</span> VR design &amp; development</p>
+      <p><span>Platform is</span> Meta Quest 2 · PC VR</p>
+      <p><span>Date is</span> Ongoing, 2026</p>
     </div>
     <span class="note hand-in">(Details)</span>
-    <div class="body"><p>I'm currently designing for virtual reality at the Indian Institute of Technology Roorkee, looking at how people move, interact and stay oriented inside immersive environments.</p><p><b class="mono-s">Platform:</b> Virtual reality</p></div>
+    <div class="body"><p>An interactive VR recreation of the IIT Roorkee campus with Jyun, an AI guide who sees what you see and answers in your own voice, and a hands-on sand-moulding laboratory that teaches a foundry process step by step.</p><p><b class="mono-s">Built with:</b> Unity 6 (URP), OpenXR, XR Interaction Toolkit, C#, Blender</p><p><b class="mono-s">AI stack:</b> on-device Whisper speech-to-text, local LLM via Ollama, FastAPI knowledge backend, text-to-speech</p></div>
   </section>
 
-  <section class="gallery-wrap" aria-label="Project images"><p class="fill">Add 3–4 images of this project (screens, research boards, final UI) to the images folder and list them here.</p></section>
+  <section class="gallery-wrap" aria-label="Project images"><span class="note hand-in" data-reveal aria-hidden="true">(A closer look)</span><div class="gallery"><figure data-reveal="up"><img src="images/vr-corridor.jpg" width="1600" height="910" alt="Galleried corridors of the James Thomason Building, lined with framed exhibits" loading="lazy" decoding="async"><figcaption>Galleried corridors of the James Thomason Building, lined with framed exhibits</figcaption></figure><figure data-reveal="up"><img src="images/vr-framedive.jpg" width="1600" height="910" alt="Frame dive: step into a framed photograph to visit the Rethink lab" loading="lazy" decoding="async"><figcaption>Frame dive: step into a framed photograph to visit the Rethink lab</figcaption></figure><figure data-reveal="up"><img src="images/vr-portal.jpg" width="1600" height="910" alt="Teleport pad leading out to the campus lawns" loading="lazy" decoding="async"><figcaption>Teleport pad leading out to the campus lawns</figcaption></figure><figure data-reveal="up"><img src="images/vr-night.jpg" width="1600" height="910" alt="JTB night scene: the courtyard and clock tower after dark" loading="lazy" decoding="async"><figcaption>JTB night scene: the courtyard and clock tower after dark</figcaption></figure><figure data-reveal="up"><img src="images/vr-hall.jpg" width="1168" height="724" alt="A corner hall, one of five portal destinations" loading="lazy" decoding="async"><figcaption>A corner hall, one of five portal destinations</figcaption></figure></div></section>
 
   <section class="block" data-reveal="rule" aria-labelledby="ctx-h"><h2 id="ctx-h"><span class="idx">(01)</span>Context</h2>
-    <div class="body"><p class="fill">Who it was for, your role, team size, timeline and the goals.</p></div></section>
+    <div class="body"><p>IIT Roorkee's VR initiative brings two experiences together: a virtual campus that gives incoming students a sense of place before they arrive, and a virtual mechanical engineering lab that teaches a manufacturing workflow by doing it, built as an educational tool rather than a game.</p><p>The campus starts at the James Thomason Building (JTB): its lawns and entrance, the domed main hall, the galleried corridors and corner halls, a history timeline wall, and day and night versions of the scene. From there, scenes branch out to the Rethink lab, the CSE department and the Mechanical department.</p></div></section>
   <section class="block" data-reveal="rule" aria-labelledby="prb-h"><h2 id="prb-h"><span class="idx">(02)</span>The problem</h2>
-    <div class="body"><p class="fill">The user's pain and the business challenge, in one sharp statement.</p></div></section>
+    <div class="body"><p>A campus this large and storied is hard to grasp from maps and brochures, and lab orientation depends on physical access, scheduling and supervision. The challenge was to make a VR space that people can find their way around, that explains itself, and that teaches a real procedure, while running smoothly on a standalone Quest 2.</p></div></section>
   <section class="block" data-reveal="rule" aria-labelledby="pro-h"><h2 id="pro-h"><span class="idx">(03)</span>The process</h2>
-    <div class="body"><h3>Research</h3><p class="fill">Methods, who you spoke to, and 3 key findings.</p><h3>How it came together</h3><p class="fill">What you mapped, what changed between iterations, and the trade-offs.</p></div></section>
+    <div class="body"><h3>Building the campus</h3><p>Buildings were modelled in Blender and refined in Unity: Kota-stone stairs, rebuilt doors, a history wall carrying a 16K timeline image, a sunny daytime sky, and baked lighting with light probes. A portal hub on the JTB lawn floats five portals (History Wall Lobby and four corner halls), each with preview images; framed photographs can be "dived" into; and a 360° gallery in the CSE department opens real panoramas.</p><h3>Comfort first</h3><p>Smooth turning at 90°/s, teleport arcs that work across every outdoor surface, an edge guard and fall rescue, a quick re-position button, fade transitions, and locomotion that pauses while you aim at a menu.</p><h3>Designing Jyun</h3><p>Jyun is a stylised Uttarakhandi guide who follows at a comfortable distance and repositions only when you move away. He is wall-aware, snaps to stairs and ramps, notices when you look at him, and recognises the exhibit you are gazing at. To keep him running on Quest 2, his model was optimised from 395k to 31.6k triangles.</p></div></section>
   <section class="block" data-reveal="rule" aria-labelledby="sol-h"><h2 id="sol-h"><span class="idx">(04)</span>The solution</h2>
-    <div class="body"><p class="fill">2–3 design highlights, each tied to a research finding.</p></div></section>
-  <section class="block" data-reveal="rule" aria-labelledby="imp-h"><h2 id="imp-h"><span class="idx">(05)</span>The impact</h2>
-    <div class="body"><p class="fill">Ongoing: share early results or what you're testing next.</p></div></section>
-
+    <div class="body"><h3>Jyun, the AI guide</h3><ul><li><b>Talk naturally:</b> hold-to-talk speech recognition runs on-device with Whisper (about 0.4 s), and replies come from a free local LLM in about 1–3 s, spoken aloud with subtitles phrase by phrase.</li><li><b>Only verified answers:</b> Jyun answers from a knowledge base of 110 IIT Roorkee facts, most from iitr.ac.in and each with a source link. When he doesn't know, he says "I don't know that yet" instead of guessing.</li><li><b>Context-aware:</b> he knows which area you are in, what you are looking at and what you are holding, and can act on a request, such as moving you to a hall or opening an exhibit panel, but only through actions the scene allows.</li></ul><h3>The sand-moulding lab</h3><ul><li>A 13-step foundry procedure, from sieving and ramming sand to drawing the pattern and venting the mould, run by a deterministic controller. The AI explains the steps but never decides whether one is correct.</li><li>A lab built around learning: an experiment dashboard, a step-synced cross-section display with a pour simulation, and a Jyun assistant screen with quick questions.</li><li>A believable foundry shed, with PPE and tool stations, safety signage, baked lighting, spatial audio, hover glows, haptics and first-use tips for every tool.</li><li>An automated test plays all 13 steps through in about 22 seconds, including after a reset.</li></ul></div></section>
+  <section class="block" data-reveal="rule" aria-labelledby="imp-h"><h2 id="imp-h"><span class="idx">(05)</span>What's next</h2>
+    <div class="body"><p>The project is ongoing. Next up: deeper context-aware navigation, importing IIT Roorkee's own material into Jyun's knowledge base, validating the lab sequence against the institute's lab manual, and measuring performance on Quest 2. The aim is to evaluate the experience with students and turn it into HCI and XR research.</p></div></section>
   <section class="figma-wrap" data-reveal="up" aria-labelledby="figma-vr-iit-roorkee-h">
     <div class="figma-head"><h2 id="figma-vr-iit-roorkee-h">Figma file</h2><span class="note" aria-hidden="true">(Have a look inside)</span></div>
     <!-- Paste your Figma share link into data-figma="" below (Figma → Share → Copy link). -->
