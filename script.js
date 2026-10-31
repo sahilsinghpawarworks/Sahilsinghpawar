@@ -512,7 +512,7 @@
   }
   const peek = $('.peek');
   if (peek && matchMedia('(hover:hover)').matches) {
-    $$('.row[data-art]').forEach(r => {
+    $$('.row[data-img], .row[data-art]').forEach(r => {
       r.addEventListener('pointerenter', () => { peek.innerHTML = r.dataset.img ? `<img src="${r.dataset.img}" alt="">` : `<div class="art art--${r.dataset.art}"></div>`; peek.classList.add('show'); });
       r.addEventListener('pointerleave', () => peek.classList.remove('show'));
       r.addEventListener('pointermove', e => { peek.style.left = e.clientX + 'px'; peek.style.top = e.clientY + 'px'; });
