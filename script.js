@@ -341,6 +341,19 @@
     me.addEventListener('pointerleave', () => { me.style.setProperty('--tx', '0px'); me.style.setProperty('--ty', '0px'); });
   }
 
+  /* ---------- Looping videos: play only while visible; still poster for reduced motion ---------- */
+  const vids = $$('video.loop-vid');
+  if (vids.length) {
+    vids.forEach(v => { v.muted = true; v.setAttribute('muted', ''); if (reduce) { v.removeAttribute('autoplay'); v.pause(); } });
+    if (!reduce && 'IntersectionObserver' in window) {
+      const vio = new IntersectionObserver(es => es.forEach(en => {
+        const v = en.target;
+        if (en.isIntersecting) { const p = v.play(); if (p) p.catch(() => {}); } else v.pause();
+      }), { threshold: 0.15 });
+      vids.forEach(v => vio.observe(v));
+    }
+  }
+
   /* ---------- Menu overlay ---------- */
   const menu = $('#menu'), menuBtn = $('#menu-btn');
   if (menu && menuBtn) {
