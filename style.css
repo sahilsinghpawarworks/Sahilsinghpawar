@@ -753,3 +753,17 @@ html.splash-on .splash{display:block; position:fixed; inset:0; z-index:70; point
 .hero-media video{position:absolute; inset:0; width:100%; height:100%; object-fit:cover}
 video.cover-img{width:100%; height:100%; object-fit:cover; display:block}
 .loop-vid{background:#E9E9E6}
+
+/* flip books (Heyzine) */
+.flipbook-wrap{margin-top:clamp(40px,6vw,80px)}
+.flipbook{position:relative; width:100%; height:min(85vh,820px); min-height:480px; border:1px solid rgba(0,0,0,.12); background:#f3f3f1; overflow:hidden}
+.flipbook iframe{position:absolute; inset:0; width:100%; height:100%; border:0; display:block}
+.flip-open{margin-top:10px; font-size:14px}
+.flip-open a{text-decoration:underline; text-underline-offset:3px}
+@media (max-width:720px){ .flipbook{height:70vh !important; min-height:380px !important} }
+/* WCM system map */
+.sysmap{margin-top:clamp(40px,6vw,80px); display:grid; gap:clamp(16px,2.4vw,28px)}
+.sysmap figure{margin:0; display:grid; gap:8px}
+.sysmap figure img{width:100%; height:auto; display:block; border:1px solid rgba(0,0,0,.12); background:#fff}
+.sysmap .links-row{margin:0}
+.sysmap figcaption{font:400 11px/1.4 var(--f-mono); color:var(--ink-3); text-transform:uppercase; letter-spacing:.04em}
