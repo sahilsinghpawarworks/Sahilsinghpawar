@@ -704,7 +704,7 @@ html.splash-on .splash{display:block; position:fixed; inset:0; z-index:70; point
 
 /* ---------- Full case-study board (Behance boards, sliced into lazy strips) ---------- */
 .case-full{margin-top:56px; border-top:1px solid var(--rule); padding-top:10px}
-.cf-board{position:relative; max-width:960px; margin-inline:auto; max-height:120vh; overflow:hidden; border:1px solid var(--rule);
+.cf-board{position:relative; width:100%; max-width:none; margin-inline:0; max-height:120vh; overflow:hidden; border:1px solid var(--rule);
   transition:max-height .9s var(--ease)}
 .cf-board img{display:block; width:100%; height:auto}
 .cf-board::after{content:""; position:absolute; left:0; right:0; bottom:0; height:40vh; pointer-events:none;
