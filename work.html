@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Serif&display=swap">
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="flipbook/flipbook.css">
 </head>
 <body>
 <script>document.documentElement.classList.add('js');setTimeout(function(){if(!document.querySelector('.loader'))document.documentElement.classList.add('ready')},6000);</script>
@@ -78,6 +79,9 @@
   <span class="idx">(13)</span><span class="display">Aipan</span><span class="meta">Art of Uttarakhand<br><span class="tagline">Research · Visual Branding · UX Design · Strategy Design</span></span><span class="ar" aria-hidden="true">→</span></a></div>
 </div>
 <div class="peek" aria-hidden="true"></div>
+<section class="page" aria-label="Portfolio flip book" style="margin-top:clamp(56px,8vw,112px)">
+  <div data-flipbook data-pdf="portfolio/portfolio.pdf" data-title="Portfolio"></div>
+</section>
 </main>
 <footer class="site-foot page">
   <div class="notes"><span class="note hand-in" data-reveal aria-hidden="true">That's all</span><a class="gti" href="contact.html">Get in touch</a></div>
@@ -92,5 +96,6 @@
   </div>
 </footer>
 <script src="script.js" defer></script>
+<script type="module" src="flipbook/flipbook.js"></script>
 </body>
 </html>
